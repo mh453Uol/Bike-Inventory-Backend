@@ -9,14 +9,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@JsonIgnoreProperties(value={ "id" }, allowGetters=true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Bike {
 	@Id
 	//Hibernate will create an id for us.
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonIgnore
 	private Long id;
 	
 	private String name;
@@ -31,9 +34,12 @@ public class Bike {
 	
 	private boolean contact;
 	
+	@JsonProperty
 	public Long getId() {
-		return id;
+		return id; //only allow user to get not set
 	}
+	
+    @JsonIgnore
 	public void setId(Long id) {
 		this.id = id;
 	}
